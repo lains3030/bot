@@ -1,0 +1,66 @@
+// start:
+//   say "Hello! before you are able to access the website we need to verify your identity"
+//   goto getEmail 
+
+// getEmail:
+//   say "What is your e-mail"
+//   hold 
+//   if (!event.is_email()){
+//     say "This is not a valid e-mail address"
+//     goto getEmail
+//   }
+//   remember userEmail = event 
+start:
+do App(
+  "sendinblue",
+  method="sendTransactionalEmail",
+  sender={"name": "Cool Chatbot", "email": "corroelizabeth@gmail.com"},
+  to=[{"email": "lains1985@gmail.com"}],
+  subject="CSML Chatbot",
+  htmlContent="<!DOCTYPE html><html><body><h1>Hi there!</h1><p>This is a demo email.</p></body></html>",
+  textContent="Hi there!\nThis is a demo email.",
+)
+goto end
+//   goto verifInit
+
+
+// verifInit:
+//   do params = {
+//     "target": userEmail,
+//     "target_type": "email",
+//     "subject": "Your Verification Code",
+//     "expires_in": 900 // 5 minutes 
+//     } 
+  
+//   do res = HTTP("https://api.nopass.me/v1")
+//     .set({"X-Api-Key": "[]"})
+//     .post(params)
+//     .send()
+
+//   if (!res.success){
+//     say "There was an issue with your request. Please re-enter the email"
+//     goto getEmail
+//   }
+
+//   goto verifCode
+
+// verifCode:
+  
+//   say "Please check your email inbox and enter the verification code:"
+//   do params = {
+//     "target": userEmail,
+//     "target_type": "email",
+//     "code": event 
+//   }
+
+//   do res = HTTP("https://api.nopass.me/v1")
+//     .set({"X_Api_Key": "[]"})
+//     .post(params)
+//     .send()
+  
+//   if (!res.success){
+//     say "There was an issue please recheck the parameters"
+//     goto getEmail
+//   }
+
+//   say "The code is valid! welcome!"

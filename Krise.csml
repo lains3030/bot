@@ -1,0 +1,71 @@
+/**
+ * Welcome to CSML Studio!
+ *
+ * This simple CSML starter flow works out of the box, and you can easily
+ * try it on the right hand side by clicking on `build and run`.
+ *
+ * Some useful CSML links:
+ * 👉 Getting started: https://docs.csml.dev/studio/getting-started
+ * 👉 Give CSML a 🌟 on Github: https://github.com/CSML-by-Clevy/csml-engine
+ * 👉 Join the CSML community on Slack: https://csml.dev/slack
+ */
+start:
+  // To display simple text, simply write:
+  say "Oh, ich sehe, es läuft nicht gut...  😞"
+
+  // Add some typing delay to make your conversation more realistic!
+  say Typing(2000)
+
+  // It's easy to display images as well!
+  say "Ich empfehle dringend, dass Du dich am besten sofort mit einem Fachmann tein Verbindung setzt, der noch qualifizierter ist als ich, um Dir angesichts deiner Not konkret zu helfen."
+
+  // Add some typing delay to make your conversation more realistic!
+  say Typing(2000)
+
+  say "Hier sind meine Vorschläge:"
+
+   // Add some typing delay to make your conversation more realistic!
+  say Typing(2000)
+  
+  say Wait(1000)
+  say Url("tel:0800-1110-111",text="🆘 SOS Telefonseelsorge")
+  say Url(url="tel:0800-1110-333", text="📞 www.nummergegenkummer.de")
+  say Url(url="tel:0800-1110-222", text="😭 Bei Selbstmordgedanken")
+
+  say Typing(2000)
+  
+  say Wait(1000)
+ 
+  say QuickReply(
+    "ich hoffe, es ist nicht allzuschlimm. Kann ich Dir sonst noch weiterhelfen?",
+    buttons=[Button("Ja"),Button("Nein danke")]
+  )
+
+  /**
+   * Wait for user input using a hold,
+   * and catch them with the `event` variable:
+   * 👉 https://docs.csml.dev/language/the-event
+   */
+  hold
+
+  if (event != "Ja") {
+    say "Kein Problem. Alles Gut. 😉"
+    goto flow End
+    }
+      
+
+  if (event == "Ja") {
+    say "Schön, wie kann ich Dir denn weiterhin helfen?? "
+    goto flow Menue     
+  }
+  
+
+/**
+  // Many other components are available to create rich chatbots!
+  say Url(
+    "https://docs.csml.dev/language/sending-receiving-messages",
+    text="Look at all these components!"
+  )
+*/
+  // Finish the conversation
+  goto end

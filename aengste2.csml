@@ -1,0 +1,78 @@
+/**
+ * This flow template is the second part of the Getting Started series of
+ * flow templates in CSML Studio.
+ *
+ * In this flow, we will see how to use some key CSML concepts, such as the
+ * `remember` keyword, the `_metadata` context, temporary variables, some
+ * built-in actions and the `Fn` keyword.
+ *
+ * The goal of this flow is to learn what the user's favorite animal is, and
+ * to retrieve a fun, random gif of this animal from an external service, Giphy.
+ *
+ * Some useful CSML links:
+ * 👉 Getting started: https://docs.csml.dev/studio/getting-started
+ * 👉 Give CSML a 🌟 on Github: https://github.com/CSML-by-Clevy/csml-engine
+ * 👉 Join the CSML community on Slack: https://csml.dev/slack
+ */
+
+start:
+  // The _metadata object is quite magical: it contains what we know about the
+  // user depending on what platform they are on. For example here on CSML Studio,
+  // we know their first name, last name and email — but on Messenger, this would
+  // be called differently. Refer to each channel's documentation!
+  say "Hi, {{_metadata.firstname}}!"
+
+  // CSML lets you remember information about your user and store it with a variable
+  // name of your choice. If we already know this piece of information, we don't
+  // need to ask them again about it and we can skip this part.
+  if (favorite_animal) {
+    say "I remember that your favorite animal is {{favorite_animal}}"
+    goto get_animal_picture
+  }
+  else {
+    goto select_favorite_animal
+  }
+
+
+select_favorite_animal:
+  say "What's the name of your favorite animal?"
+  hold
+
+  // The keyword `remember` lets you memorize information about your user.
+  // The chatbot will never forget anything it remembers!
+  remember favorite_animal = event
+
+  // You can display variables with the {{VARIABLE_NAME}} notation
+  say "OK! I know that your favorite animal is: {{favorite_animal}}"
+  goto get_animal_picture
+
+
+get_animal_picture:
+  say "Let's try to find some nice pictures!"
+
+  // Before you can continue, you should go to the Apps section in the
+  // left sidebar, and install the Giphy app from the available integrations.
+  // This is a free app and it doesn't require any specific configuration.
+  // Then, to call this integration, we simply need to call it with the `do`
+  // keyword which can also be used to assign its result with a temporary
+  // variable (that is reset once we leave the flow):
+  do image_urls = App("giphy", query="{{favorite_animal}}", type="gif")
+
+  // This will call the Giphy service and retrieve 5 GIFs matching the user's
+  // favorite animal, in an array of URL-formatted strings.
+  // There is a possibility that this query does not return anything: if the user
+  // chose an animal that does not exist, or if there is an issue with Giphy.
+  // Let's find out:
+  if (!image_urls || !image_urls.length()) {
+    say "Oh, it seems that we can't find any!"
+    say "Let's pick a different animal this time..."
+    goto select_favorite_animal
+  }
+
+  // Let's display a random image out of this array of images using OneOf()
+  say Image(OneOf(image_urls))
+  say Wait(2000)
+
+  say "I hope you liked it!"
+
+  goto end

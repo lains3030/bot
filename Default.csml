@@ -1,0 +1,88 @@
+/**
+ * Welcome to CSML Playground,
+ * a space to learn and experiment with CSML 🤗
+ *
+ * You can create your chatbot here, and try it directly in your browser!
+ *
+ * Some useful links:
+ * 👉 Getting started: https://docs.csml.dev/studio/getting-started
+ * 👉 Give CSML a 🌟 on Github: https://github.com/CSML-by-Clevy/csml-engine
+ * 👉 Join the CSML community on Slack: https://csml.dev/slack
+ */
+start:
+// return an array of urls of gifs matching your query
+  do gifs = App("giphy", action="gif", query="hello")
+
+  say "Hallo, wie geht's Dir! 👋"
+  say Image(gifs[0])
+  //say Image("https://media.giphy.com/media/l2Jecbgvhz8p2RuMg/giphy.gif")
+  
+  say Wait(1000)
+  say Typing(1500)
+
+
+  /**
+  
+   * You can create many rich conversational components,
+   * like QuickReply, that lets the user click on buttons.
+   *
+   * There are a lot of other components, check out the docs:
+   * 👉 https://docs.csml.dev/language/sending-receiving-messages
+   */
+  say QuickReply(
+    "Vielen Dank, dass Du dir Hilfe suchen möchtest!",
+    buttons=[Button("weiter geht's")]
+  )
+
+  /**
+   * Wait for user input using a hold,
+   * and catch them with the `event` variable:
+   * 👉 https://docs.csml.dev/language/the-event
+   */
+  hold
+
+  if (event != "weiter geht's") {
+    say "Du hast nicht auf weiter geklickt, aber egal 😉"
+  }
+
+
+  say "Ich bin hier, um Dir schnell zu helfen, um Deine Stimmung zu verbessern und um dir Rat zu spenden."
+  say Url("https://www.csml.dev", text="👉 Mehr Infos")
+
+  /**
+   * It's always a good idea to give the user some time to read
+   * the content of the chatbot before continuing the chat.
+   */
+  say Wait(3000) // wait for 3 seconds
+  say Typing(1500) // display a typing indicator for 1.5s
+
+  /**
+   * Create additional steps to make your code more readable
+   */
+  goto instructions
+
+instructions:
+  say QuickReply(
+    "zuerst einmal würde ich gerne wissen, was dich gerad bedrückt 😿 damit ich dir besser helfen kann!",
+    buttons=[Button("Ich habe Ängste!"), Button("Ich habe Zwänge! 👻"), Button("Ich fühle mich schlecht! 😎")]
+  )
+  hold
+
+if (event == "Ich habe Ängste!") {
+    say "OK, dann lass uns beginnen 👍"
+  }
+goto flow aengste2
+  /**
+   * CSML supports markdown to make it easy to display rich content:
+   */
+  say QuickReply(
+    "To get started, here are some instructions for you:
+  - When you are ready, you can click on **`Build`** at the top of the page.
+  - You can also add new flows by clicking on the ➕ sign in the left sidebar!
+  - To share your work with others, click on **Share** 🙌 to send it to friends and colleagues.",
+    buttons=[Button("Got it!")]
+  )
+  hold
+  /* Always start the conversation with this step */
+
+  

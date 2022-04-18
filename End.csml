@@ -1,0 +1,24 @@
+/**
+ * Welcome to CSML Studio!
+ *
+ * This simple CSML starter flow works out of the box, and you can easily
+ * try it on the right hand side by clicking on `build and run`.
+ *
+ * Some useful CSML links:
+ * 👉 Getting started: https://docs.csml.dev/studio/getting-started
+ * 👉 Give CSML a 🌟 on Github: https://github.com/CSML-by-Clevy/csml-engine
+ * 👉 Join the CSML community on Slack: https://csml.dev/slack
+ */
+start:
+  // To display simple text, simply write:
+  say "Ok, Danke Dir vielmals, dass Du dich an mich gewandt hast."
+
+  
+  // Add some typing delay to make your conversation more realistic!
+  say Typing(2000)
+
+  // Many other components are available to create rich chatbots!
+  say "Ich freue mich, Dich bald wieder zu hören. Mach's gut und bis bald...👋"
+
+  // Finish the conversation
+  goto end
